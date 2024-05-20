@@ -3,13 +3,16 @@ import RevenueChart from '@/app/ui/dashboard/revenue-chart';
 import LatestInvoices from '@/app/ui/dashboard/latest-invoices';
 import { lusitana } from '@/app/ui/fonts';
 import {
-  fetchRevenue,
+  /*fetchRevenue, i remove fetch revenue for part of streaming component 
+  because c'est celui donc le chargement prend plus de temps*/
   fetchLatestInvoices,
   fetchCardData,
 } from '@/app/lib/data';
+import { Suspense } from 'react'; // part of streaming component
+import { RevenueChartSkeleton } from '@/app/ui/skeletons'; // part of streaming component
 
 export default async function Page() {
-  const revenue = await fetchRevenue();
+  /*const revenue = await fetchRevenue(); remove all instance of fetch revenue*/
   const latestInvoices = await fetchLatestInvoices();
   const cardData = await fetchCardData();
   return (
@@ -25,7 +28,7 @@ export default async function Page() {
         />
         <Card
           title="Pending"
-          value={cardData.totalPendingInvoice}
+          value={cardData.totalPendingInvoices}
           type="pending"
         />
         <Card
@@ -40,7 +43,11 @@ export default async function Page() {
         />
       </div>
       <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-4 lg:grid-cols-8">
-        <RevenueChart revenue={revenue} />
+        {/*<RevenueChart revenue={revenue} />
+        <LatestInvoices latestInvoices={latestInvoices} />*/}
+        <Suspense fallback={<RevenueChartSkeleton />}>
+          <RevenueChart />
+        </Suspense>
         <LatestInvoices latestInvoices={latestInvoices} />
       </div>
     </main>
