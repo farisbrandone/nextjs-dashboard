@@ -14,6 +14,11 @@ import {
   LatestInvoicesSkeleton,
   RevenueChartSkeleton,
 } from '@/app/ui/skeletons'; // part of streaming component
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Invoices',
+};
 
 export default async function Page() {
   /*const revenue = await fetchRevenue(); remove all instance of fetch revenue*/
